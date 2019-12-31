@@ -1,7 +1,8 @@
 from neomodel import StructuredNode, UniqueIdProperty, StringProperty, Relationship
 
 
-class Artist(StructuredNode):
+class Track(StructuredNode):
     uid = UniqueIdProperty()
-    name = StringProperty(unique_index=True, required=True)
+    name = StringProperty(required=True)
     releases = Relationship(".release.Release", "RELEASES")
+    genre = StringProperty()
