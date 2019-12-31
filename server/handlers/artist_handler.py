@@ -1,31 +1,27 @@
 from flask import g
 
-from server.rebar import rebar
+from server.rebar import rebar, registry
+from server.rest.v0.schema.artist import ArtistResponseSchema
 from graph.models.artist import Artist
-from graph.models.release import Release
-from graph.models.track import Track
 
 
 def create_artist():
     name = rebar.validated_body["name"]
-    t = Track(name=name, genre="techno").save()
-    r1 = Release(catalogue_number="REL-001").save()
-    a = Artist(name=name).save()
-    r1.artists.connect(a)
-    r1.tracks.connect(t)
-    # This won't print the artist's releases, but they are there
-    print(f"artists: {Artist.nodes.all()} ")
-    return "ok"
+
+    artist = Artist(name=name).save()
+    resp = ArtistResponseSchema().load(artist.to_dict())
+    return resp
 
 def get_artists():
-    print(f"artists: {Artist.nodes.all()} ")
-    return "ok"
+    artists = Artist.nodes.all()
+    return ArtistResponseSchema(many=True).load([a.to_dict() for a in artists])
 
-def _wipe_db():
+def update_artist(artist):
+    # TODO
+    # something like this
+    some_release = Release.nodes.all()
+    some_release.artists.connect(artist)
+
+def _wipe_artists():
     for node in Artist.nodes.all():
         node.delete()
-    for node in Release.nodes.all():
-        node.delete()
-    for node in Track.nodes.all():
-        node.delete()
-

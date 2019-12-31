@@ -1,7 +1,7 @@
 from neo4j import GraphDatabase
 import neomodel
 from config.base import get_config
-
+from graph.models.base_model import BaseModel
 
 config = get_config()
 
