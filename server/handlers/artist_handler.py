@@ -4,13 +4,7 @@ from graph.models.track import Track
 
 
 def create_artist(artist):
-    for node in Artist.nodes.all():
-        node.delete()
-    for node in Release.nodes.all():
-        node.delete()
-    for node in Track.nodes.all():
-        node.delete()
-
+    _wipe_db()
     t = Track(name="club bangeer", genre="techno").save()
     r1 = Release(catalogue_number="REL-001").save()
     a = Artist(name=artist).save()
@@ -20,4 +14,15 @@ def create_artist(artist):
     print(f"artists: {Artist.nodes.all()} ")
     return "ok"
 
+def get_artists():
+    print(f"artists: {Artist.nodes.all()} ")
+    return "ok"
+
+def _wipe_db():
+    for node in Artist.nodes.all():
+        node.delete()
+    for node in Release.nodes.all():
+        node.delete()
+    for node in Track.nodes.all():
+        node.delete()
 

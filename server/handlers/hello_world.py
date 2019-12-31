@@ -1,6 +1,7 @@
 from flask import g
 
-
+# This module is example code from the neo4j pypi page
+# The database is interacted with directly, not thru neomodel
 def add_friend(tx, name, friend_name):
     tx.run(
         "MERGE (a:Person {name: $name}) "
