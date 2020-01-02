@@ -1,9 +1,9 @@
 from server.rebar import registry
 from server.handlers.hello_world import hello
-from server.handlers.artist_handler import create_artist, get_artists
-from server.handlers.release_handler import create_release, get_releases
-from server.rest.v0.schema.artist import ArtistRequestBodySchema, ArtistResponseSchema
-from server.rest.v0.schema.release import ReleaseRequestBodySchema, ReleaseResponseSchema
+from server.handlers.artist_handler import handle_create_artist, handle_get_artists
+from server.handlers.release_handler import handle_create_release, handle_get_releases, handle_update_release
+from rest.v0.schema.artist import ArtistRequestBodySchema, ArtistResponseSchema
+from rest.v0.schema.release import ReleasePutSchema, ReleasePatchSchema, ReleaseResponseSchema
 
 def register_handlers():
 
@@ -19,7 +19,7 @@ def register_handlers():
             method="GET",
             response_body_schema=ArtistResponseSchema(many=True))
     def _get_artists():
-        return get_artists()
+        return handle_get_artists()
 
     @registry.handles(
           rule="/artist",
@@ -27,7 +27,7 @@ def register_handlers():
           request_body_schema=ArtistRequestBodySchema,
           response_body_schema=ArtistResponseSchema)
     def _create_artist():
-        return create_artist()
+        return handle_create_artist()
 
     # Releases
     @registry.handles(
@@ -35,12 +35,20 @@ def register_handlers():
             method="GET",
             response_body_schema=ReleaseResponseSchema(many=True))
     def _get_releases():
-        return get_releases()
+        return handle_get_releases()
 
     @registry.handles(
           rule="/release",
           method="PUT",
-          request_body_schema=ReleaseRequestBodySchema,
+          request_body_schema=ReleasePutSchema,
           response_body_schema=ReleaseResponseSchema)
     def _create_release():
-        return create_release()
+        return handle_create_release()
+
+    @registry.handles(
+          rule="/release",
+          method="PATCH",
+          # request_body_schema=ReleasePatchSchema,
+          response_body_schema=ReleaseResponseSchema)
+    def _update_release():
+        return handle_update_release('bd0866f867ad4d5ebb340a58e3afacd6')

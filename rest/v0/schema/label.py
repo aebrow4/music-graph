@@ -1,6 +1,6 @@
 from marshmallow import fields, Schema
 
-from server.rest import ThinArtistSchema, ThinGenreSchema, ThinReleaseSchema, ThinSongSchema
+from rest import ThinArtistSchema, ThinGenreSchema, ThinReleaseSchema, ThinSongSchema
 
 
 # PUT /label
