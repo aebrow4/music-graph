@@ -6,10 +6,11 @@ from rest import ThinArtistSchema, ThinLabelSchema, ThinGenreSchema, ThinSongSch
 # PUT /release
 class ReleasePutSchema(Schema):
     catalogue_num = fields.String(required=True)
-    title = fields.String()
     release_date = fields.Date(required=True)
+    title = fields.String()
 
 class ReleasePatchSchema(Schema):
+    uid = fields.String(required=True)
     catalogue_num = fields.String()
     title = fields.String()
     release_date = fields.Date()

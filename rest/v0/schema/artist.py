@@ -3,8 +3,16 @@ from rest import ThinGenreSchema, ThinLabelSchema, ThinReleaseSchema, ThinSongSc
 
 
 # PUT /artist
-class ArtistRequestBodySchema(Schema):
+class ArtistPutSchema(Schema):
     name = fields.String()
+
+class ArtistPatchSchema(Schema):
+    uid = fields.String(required=True)
+    name = fields.String()
+    releases = fields.List(fields.String())
+    genres  = fields.List(fields.String())
+    labels  = fields.List(fields.String())
+    songs = fields.List(fields.String())
 
 # Response for a single artist
 # GET, PUT, PATCH /artist?foo=bar

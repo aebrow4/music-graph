@@ -18,8 +18,21 @@ def handle_get_releases():
     releases = get_releases()
     return ReleaseResponseSchema(many=True).load(releases)
 
-def handle_update_release(uid):
-    updated = update_release(uid)
+def handle_update_release():
+    uid = rebar.validated_body["uid"]
+    artist_uids = rebar.validated_body.get('artists')
+    updates = {
+            'catalogue_num': rebar.validated_body.get('catalogue_num'),
+            'title': rebar.validated_body.get('title'),
+            'release_date': rebar.validated_body.get('release_date'),
+            'artists': rebar.validated_body.get('artists', []),
+            'genres': rebar.validated_body.get('genres', []),
+            'labels': rebar.validated_body.get('labels', []),
+            'songs': rebar.validated_body.get('songs', []),
+        }
+
+    updated = update_release(uid, updates)
+           
     return ReleaseResponseSchema().load(updated.to_dict())
 
 
